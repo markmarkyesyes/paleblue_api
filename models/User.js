@@ -11,7 +11,7 @@ let UserSchema = new Schema({
   expiresAt: {
     type: Date,
     default: Date.now,
-    expires: "3d"
+    expires: "15s"
   }
 });
 
