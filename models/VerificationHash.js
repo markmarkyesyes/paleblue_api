@@ -5,10 +5,10 @@ const bcrypt = require("bcrypt-nodejs");
 let VerificationHashSchema = new Schema({
   verificationHash: { type: String },
   user: { type: Schema.Types.ObjectId },
-  expires: {
+  expiresAt: {
     type: Date,
     default: Date.now,
-    expires: process.env.VERIFICATION_EXPIRE_LENGTH || "3d"
+    expires: "3d"
   }
 });
 
