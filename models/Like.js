@@ -14,7 +14,7 @@ let LikeSchema = new Schema(
     fromLng: { type: Number },
     fromLat: { type: Number },
     demoId: { type: String, default: "" },
-    expiresAt: { type: Date, default: Date.now, expires: "24h" }
+    expiresAt: { type: Date, default: Date.now, expires: "12h" }
   },
   {
     timestamps: true

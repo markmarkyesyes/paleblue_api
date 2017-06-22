@@ -12,7 +12,7 @@ let ContentSchema = new Schema(
     contentType: { type: String },
     data: { type: String },
     demoId: { type: String, default: "" },
-    expiresAt: { type: Date, default: Date.now, expires: "24h" }
+    expiresAt: { type: Date, default: Date.now, expires: "12h" }
   },
   {
     timestamps: true

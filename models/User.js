@@ -9,7 +9,9 @@ let UserSchema = new Schema({
   lastActive: { type: Date, default: Date.now() },
   demoId: { type: String, default: "" },
   expiresAt: {
-    type: Date
+    type: Date,
+    default: Date.now,
+    expires: "3d"
   }
 });
 
@@ -25,7 +27,6 @@ UserSchema.virtual("password").set(function(value) {
 });
 
 UserSchema.plugin(mongooseuniquevalidator);
-// UserSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 60 });
 var User = mongoose.model("User", UserSchema);
 mongoose.Model.on("index", function(err) {
   if (err) logger.error(err);
