@@ -6,25 +6,30 @@ const bcrypt = require("bcrypt-nodejs");
 let UserSchema = new Schema({
   email: { type: String, isEmail: true, unique: true },
   passwordHash: { type: String },
-  lastActive: { type: Date, default: Date.now },
+  lastActive: { type: Date, default: Date.now() },
   demoId: { type: String, default: "" },
-  expires: {
+  expiresAt: {
     type: Date,
     default: Date.now,
-    expires: process.env.VERIFICATION_EXPIRE_LENGTH || "3d"
+    expires: "3d"
   }
 });
 
 UserSchema.methods.validatePassword = function(password) {
-  return bcrypt.compareSync(password, this.passwordHash);
+  return bcrypt.compareSync(
+    `${password}${process.env.BCRYPT_SECRET}`,
+    this.passwordHash
+  );
 };
 
 UserSchema.virtual("password").set(function(value) {
-  this.passwordHash = bcrypt.hashSync(value);
+  this.passwordHash = bcrypt.hashSync(`${value}${process.env.BCRPYT_SECRET}`);
 });
 
 UserSchema.plugin(mongooseuniquevalidator);
-
 var User = mongoose.model("User", UserSchema);
+mongoose.Model.on("index", function(err) {
+  if (err) logger.error(err);
+});
 
 module.exports = User;
