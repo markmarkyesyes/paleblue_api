@@ -16,14 +16,11 @@ let UserSchema = new Schema({
 });
 
 UserSchema.methods.validatePassword = function(password) {
-  return bcrypt.compareSync(
-    `${password}${process.env.BCRYPT_SECRET}`,
-    this.passwordHash
-  );
+  return bcrypt.compareSync(password, this.passwordHash);
 };
 
 UserSchema.virtual("password").set(function(value) {
-  this.passwordHash = bcrypt.hashSync(`${value}${process.env.BCRPYT_SECRET}`);
+  this.passwordHash = bcrypt.hashSync(value);
 });
 
 UserSchema.plugin(mongooseuniquevalidator);
