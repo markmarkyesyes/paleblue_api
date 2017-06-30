@@ -17,8 +17,7 @@ describe("App", () => {
       User.create({
         email: "foobar@gmail.com",
         password: "password"
-      })
-      .then(savedUser => {
+      }).then(savedUser => {
         user = savedUser;
         request.post(
           {
@@ -101,7 +100,6 @@ describe("App", () => {
   });
 
   describe("Content", () => {
-
     it("creates new image content", done => {
       var options = {
         url: `${apiUrl}content`,
@@ -135,11 +133,10 @@ describe("App", () => {
         data: "https://tinyurl.com/ycjh83v5",
         lng: -71.276,
         lat: 42.4906
-      })
-      .then((savedContent) => {
+      }).then(savedContent => {
         content = savedContent;
-        done();        
-      })
+        done();
+      });
     });
 
     it("creates new like", done => {
@@ -153,15 +150,14 @@ describe("App", () => {
           fromUserId: user._id.toString(),
           contentId: content._id.toString(),
           fromLng: -71.276,
-          fromLat: 42.4906,
+          fromLat: 42.4906
         }
       };
       request(options, (err, res, body) => {
         Like.findOne({}, (err, like) => {
           expect(like.fromLng).toBe(-71.276);
           done();
-        })
-
+        });
       });
     });
 
@@ -175,8 +171,7 @@ describe("App", () => {
         User.create({
           email: "foobar2@gmail.com",
           password: "password"
-        })
-        .then(result => {
+        }).then(result => {
           user2 = result;
           Content.create({
             contentType: "image",
@@ -184,16 +179,14 @@ describe("App", () => {
             lng: "-71.2760",
             lat: "42.4906",
             userId: user2._id
-          })
-          .then(result => {
+          }).then(result => {
             contentFromUser2 = result;
             Like.create({
               fromUserId: user2._id,
               contentId: content._id,
               fromLng: -71.276,
-              fromLat: 42.4906,
-            })
-            .then(result => {
+              fromLat: 42.4906
+            }).then(result => {
               newLike = result;
               Like.create({
                 fromUserId: user2._id,
@@ -201,22 +194,20 @@ describe("App", () => {
                 fromLng: 34.276,
                 fromLat: 21.4906,
                 createdAt: new Date(Date.now() - 36000000)
-              })
-              .then(result => {
+              }).then(result => {
                 oldLike = result;
                 Like.create({
                   fromUserId: user._id,
                   contentId: contentFromUser2._id,
                   fromLng: 34.276,
-                  fromLat: 21.4906,
-                })
-                .then(result => {
+                  fromLat: 21.4906
+                }).then(result => {
                   likeToUser2 = result;
                   done();
-                })              
-              })
-            }); 
-          })         
+                });
+              });
+            });
+          });
         });
       });
 
@@ -233,15 +224,13 @@ describe("App", () => {
           let likes = JSON.parse(body);
           expect(likes.length).toBe(1);
           expect(likes[0].fromLat).toBe(42.4906);
-          done()
+          done();
         });
-      })     
-    })
-
+      });
+    });
   });
 
   describe("error handling", () => {
-
     it("returns an error when incorrect login info is provided", done => {
       request.post(
         {
